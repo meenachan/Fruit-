@@ -1,4 +1,4 @@
-# Fruit-
+# Fruit
 A Django app to keep track of your daily tasks and harvest fruits upon completion!
 
 
