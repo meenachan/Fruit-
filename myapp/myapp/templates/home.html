@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <style>
+body{
+    background-color: #F2D7D3;
+}
+.wave-container {
+    width: 300vw;
+    height: 100%;
+    position: fixed;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+  }
+  .text{
+      /* padding:250px; */
+     display: flex;
+     flex-direction: row;
+
+  }
+  h1 {
+    font-family: 'Lobster', cursive;
+    font-size: 60px;
+      padding-left:400px ;
+      padding-right: 50px;
+      margin-top: 250px;
+    display: inline-block !important;
+  }
+  .btn{
+    margin-top: 270px !important;
+  }
+  .wave {
+    opacity: 1;
+    position: absolute;
+    top: 60%;
+    left: -28%;
+    background: #18DFAD;
+    width: 100%;
+    height: 300vw;
+    transform-origin: 50% 49%;
+    border-radius: 49%;
+    -webkit-animation: drift 3000ms infinite linear;
+    animation: drift 8000ms infinite linear;
+    will-change: transform;
+  }
+
+  .wave.-two {
+    animation: drift 9000ms infinite linear;
+    opacity: 1;
+    background: #33476a;
+    top: 60%;
+    left: -32%;
+  }
+
+  .wave.-three {
+    animation: drift 4000ms infinite linear;
+    opacity: 1;
+    background: #F12645;
+    top: 60%;
+    left: -36%;
+    z-index: -2;
+  }
+
+  @keyframes drift {
+    from {
+      transform: rotate(0deg);
+    }
+    from {
+      transform: rotate(360deg);
+    }
+  }
+
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-dark info-color">
+        <a class="navbar-brand" href="index.html">Fruit</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+          aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/login">
+                <i class="fab fa-facebook-f"></i> Login
+                <!-- <span class="sr-only">(current)</span> -->
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="fab fa-instagram"></i> Register</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!--/.Navbar -->
+
+      <div class="wrapper">
+        <!-- Wave bg-->
+        <div class="wave-container">
+          <div class="wave -one"></div>
+          <div class="wave -two"></div>
+          <div class="wave -three"></div>
+        </div>
+      </div>
+    <div class ="text">
+        <h1>Organize it all with Us</h1>
+        <button type="button" class="btn btn-danger btn-lg">Get Started</button>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

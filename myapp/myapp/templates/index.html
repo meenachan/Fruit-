@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>TodoApp - Create A Todo With Django</title>
+  {% load static %}
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   <!-- <link rel="stylesheet"  href="{% static 'myapp/style.css' %}"> -->
+   <base href="/">
+   <!-- <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/style.css" > -->
+   <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Pacifico&display=swap" rel="stylesheet">
+   <link rel="stylesheet" type="text/css" href="../static/css/style.css" >
+</head>
+<body>
+<div django-app="TaskManager">
+    <div class="container">
+            <div class="content">
+            <h1 class="head">Fruit</h1>
+            <p class="tagline">a Django todo app</p>
+            <form action="" method="post">
+            {% csrf_token %} <!-- csrf token for basic security -->
+                <div class="inputContainer">
+                    <input type="text" id="description" class="taskName" placeholder="What do you need to do?" name="description" required>
+                    <label for="description">Description</label>
+                </div>
+                <div class="inputContainer half last">
+                    <i class="fa fa-caret-down selectArrow"></i>
+                    <select id="category" class="taskCategory" name="category_select">
+                    <option class="disabled" value="">Choose a category</option>
+                    {% for category in categories %}
+                        <option class="" value="{{ category.name }}" name="{{ category.name }}">{{ category.name }}</option>
+                    {% endfor %}
+                    </select>
+                    <label for="category">Category</label>
+                </div>
+                <div class="inputContainer half last right">
+                    <input type="date" id="dueDate" class="taskDate" name="date">
+                    <label for="dueDate">Due Date</label>
+                </div>
+                <div class="row">
+                    <button class="taskAdd btn-lg" name="taskAdd" type="submit" onclick="inctask()"><i class="fa fa-plus icon"></i>Add Task</button>
+                    <button class="taskDelete btn-lg" name="taskDelete" formnovalidate="" type="submit" onclick="$('input#sublist').click();"><i class="fa fa-trash-o icon"></i>Delete Tasks</button>
+                    <button class="addBasket btn-lg" name="addBasket" formnovalidate="" type="submit" onclick="$('input#sublist').click();"><i class="fa fa-check icon" ></i>Add to Basket</button>
+                    <button class="emptyBasket btn-lg" name="emptyBasket" formnovalidate="" type="submit" onclick="$('input#sublist').click();"><i class="fa fa-times icon"></i>Empty Basket</button>
+                    <p></p>
+
+
+                </div>
+
+            <ul class="taskList">
+            {% for todo in todos %} <!-- django template lang - for loop -->
+                <li class="taskItem">
+                     <input type="checkbox" class="taskCheckbox" name="checkedbox" id="{{ todo.id }}" value="{{ todo.id }}" onclick="addFruitToDisplay()">
+                    <!--<input type="checkbox" class="taskCheckbox" name="checkedbox" id="{{ todo.id }}" value="{{ todo.id }}">-->
+                    <label for="{{ todo.id }}"><span class="complete-">{{ todo.title }}</span></label>
+                    <span class="category-{{ todo.category }}">{{ todo.category }}</span>
+                    <strong class="taskDate"><i class="fa fa-calendar"></i>{{ todo.created }} - {{ todo.due_date }}</strong>
+
+                </li>
+            {% endfor %}
+            </ul><!-- taskList -->
+
+            </form>
+
+
+            </div><!-- content -->
+
+ </div><!-- container -->
+
+</div>
+<div class="dashboard">
+    <h1 class="head"> Dashboard</h1>
+     <!-- progressbar  -->
+     <div class="progress">
+      <div id="dynamic" class="progress-bar progress-bar-striped  progress-bar-animated bg-success" role="progressbar"  aria-valuemin="0" aria-valuemax="100">0%</div>
+    </div>
+
+    <!--<div class="garden">-->
+      <!--<h1>Basket</h1>-->
+      <!--<div id="apple"></div>-->
+
+      <!--<div id="orange"></div>-->
+
+      <!--<div id="lemon"></div>-->
+
+      <!--<div id="pear"></div>-->
+
+      <!--<div id="watermelon"></div>-->
+    <!--</div>-->
+
+     <div class="garden">
+         <h1>Basket</h1>
+         <p></p>
+            {% for fruit in allFruits %} <!-- django template lang - for loop -->
+             <div id= "{{ fruit.type }}" name = "fruit"  class="taskname" data-toggle="tooltip" data-placement="top" title="{{fruit}}"></div>
+            {% endfor %}
+            <!-- taskList -->
+    </div>
+  </div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script type="text/javascript">
+var checked = [];
+var allTasks = [];
+ var progress = 0;
+ var counttask = 0;
+
+
+function addFruitToDisplay(){
+    var taskdone =0;
+    var tasks = 0;
+
+    $("input[name='checkedbox']:checked").each(function ()
+    {
+        checked.push(parseInt($(this).val()));
+        taskdone = taskdone+1;
+    });
+
+    $("input[name='checkedbox']").each(function ()
+    {
+        allTasks.push(parseInt($(this).val()));
+        tasks = tasks+1;
+    });
+
+
+    progress =Math.floor((taskdone / tasks) * 100);
+    if (progress < 100)
+    {
+        progressbardynamic(progress);
+    }
+    else
+    {
+        progress = 100
+        progressbardynamic(progress);
+    }
+}
+
+
+// function used to count the number of tasks added
+function inctask(){
+    counttask = counttask+1;
+     return counttask;
+}
+
+
+function progressbardynamic(progress){
+    $("#dynamic")
+      .css("width", progress + "%")
+      .attr("aria-valuenow", progress)
+      .text(progress + "% Complete");
+      if (progress >= 100)
+          progress=100;
+}
+
+
+ $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+ </script>
+</body>
+</html>
